@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WaveRide System — Supply & Demand Zone Indicator</title>
+<meta name="description" content="Stop guessing the market. Get instant access to the Supply & Demand Zones Indicator. Trade where price actually reacts.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Inter', -apple-system, sans-serif;
+    color:#1a0505;
+    background:#FFECEA;
+    -webkit-font-smoothing:antialiased;
+    line-height:1.5;
+  }
+  
+  :root{
+    --burgundy:#6C131F;
+    --redwood:#A14B58;
+    --rose:#FFECEA;
+  }
+  
+  img{max-width:100%; display:block;}
+  a{color:inherit; text-decoration:none;}
+  
+  .container{max-width:1100px; margin:0 auto; padding:0 20px;}
+  
+  /* Header */
+  header{background:#fff; padding:12px 0; position:sticky; top:0; z-index:100; box-shadow:0 2px 10px rgba(108,19,31,0.1);}
+  .nav{display:flex; align-items:center; justify-content:space-between;}
+  .logo{font-size:20px; font-weight:900; color:var(--burgundy); display:flex; align-items:center; gap:10px;}
+  .logo img{height:80px; width:80px; border-radius:8px; object-fit:cover;}
+  .nav-links{display:flex; gap:24px; font-size:14px; font-weight:600;}
+  .nav-links a:hover{color:var(--burgundy);}
+  
+  .hamburger{display:none; flex-direction:column; gap:5px; cursor:pointer; padding:8px;}
+  .hamburger span{width:28px; height:3px; background:var(--burgundy); border-radius:2px; transition:all .3s ease;}
+  .hamburger.active span:nth-child(1){transform:rotate(45deg) translate(8px, 8px);}
+  .hamburger.active span:nth-child(2){opacity:0;}
+  .hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(7px, -7px);}
+  
+  .mobile-menu{display:none; position:fixed; top:72px; left:0; right:0; background:#fff; box-shadow:0 8px 20px rgba(108,19,31,0.15); padding:20px; z-index:99;}
+  .mobile-menu.open{display:block;}
+  .mobile-menu a{display:block; padding:12px 16px; font-size:16px; font-weight:600; color:#1a0505; border-bottom:1px solid rgba(108,19,31,0.1);}
+  .mobile-menu a:last-child{border-bottom:none;}
+  .mobile-menu a:hover{color:var(--burgundy); background:rgba(108,19,31,0.05);}
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    padding:12px 24px; border-radius:999px; font-weight:700; font-size:14px;
+    background:linear-gradient(135deg, var(--burgundy), var(--redwood));
+    color:#fff; transition:transform .2s, box-shadow .2s;
+    box-shadow:0 6px 16px rgba(108,19,31,0.3);
+  }
+  .btn:hover{transform:translateY(-2px); box-shadow:0 8px 20px rgba(108,19,31,0.4);}
+  
+  /* Hero */
+  .hero{text-align:center; padding:50px 20px 30px;}
+  .hero h1{font-size:clamp(28px, 5vw, 48px); font-weight:900; line-height:1.1; margin-bottom:14px;}
+  .hero h1 span{color:var(--burgundy);}
+  .hero p{font-size:16px; color:#4a0a0a; margin-bottom:20px; max-width:600px; margin-left:auto; margin-right:auto;}
+  .hero-img{max-width:700px; margin:35px auto 0; border-radius:16px; box-shadow:0 12px 40px rgba(108,19,31,0.2); overflow:hidden;}
+  .hero-img img{width:100%;}
+  .badges{display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:12px; margin-top:20px; font-size:13px; font-weight:700; color:#4a0a0a; max-width:900px; margin-left:auto; margin-right:auto;}
+  .badge{background:#fff; padding:10px 16px; border-radius:999px; box-shadow:0 2px 8px rgba(108,19,31,0.1); text-align:center;}
+  
+  /* Section */
+  section{padding:35px 20px;}
+  .section-title{font-size:clamp(22px, 4vw, 32px); font-weight:900; text-align:center; margin-bottom:10px;}
+  .section-sub{text-align:center; color:#4a0a0a; max-width:600px; margin:0 auto 25px; font-size:15px;}
+  
+  /* Grid */
+  .grid{display:grid; grid-template-columns:1fr; gap:14px; margin-top:25px; max-width:900px; margin-left:auto; margin-right:auto;}
+  .card{background:#fff; padding:24px 28px; border-radius:18px; box-shadow:0 4px 12px rgba(108,19,31,0.1);}
+  .card h3{font-size:18px; font-weight:800; margin-bottom:10px; color:var(--burgundy);}
+  .card p{font-size:15px; color:#6C131F; line-height:1.6;}
+  
+  /* Video Container */
+  .video-container{position:relative; max-width:900px; margin:25px auto; border-radius:16px; overflow:hidden; box-shadow:0 8px 24px rgba(108,19,31,0.15); background:#000;}
+  .video-container iframe{width:100%; aspect-ratio:16/9; display:block;}
+  .video-placeholder{position:absolute; top:0; left:0; right:0; bottom:0; cursor:pointer;}
+  .video-placeholder img{width:100%; height:100%; object-fit:cover;}
+  .play-overlay{position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); transition:transform .3s ease;}
+  .video-placeholder:hover .play-overlay{transform:translate(-50%, -50%) scale(1.1);}
+  .video-container.playing .video-placeholder{display:none;}
+  
+  .video-description{max-width:900px; margin:30px auto; background:#fff; padding:28px 32px; border-radius:16px; box-shadow:0 4px 12px rgba(108,19,31,0.1);}
+  .video-points{list-style:none; padding:0; margin:20px 0 0 0;}
+  .video-points li{padding:10px 0; font-size:15px; color:#4a0a0a; line-height:1.6; border-bottom:1px solid rgba(108,19,31,0.08);}
+  .video-points li:last-child{border-bottom:none;}
+  .video-points li strong{color:var(--burgundy); font-weight:700;}
+  
+  /* Testimonials */
+  .testimonial-grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:14px; max-width:1000px; margin:25px auto 0;}
+  .testimonial{background:#fff; border-radius:14px; overflow:hidden; box-shadow:0 4px 12px rgba(108,19,31,0.1);}
+  .testimonial img{width:100%; height:280px; object-fit:contain; background:#fff;}
+  
+  @media(max-width:992px){
+    .testimonial-grid{grid-template-columns:repeat(2, 1fr);}
+  }
+  
+  @media(max-width:600px){
+    .testimonial-grid{grid-template-columns:1fr; max-width:400px;}
+    .testimonial img{height:auto; min-height:220px;}
+  }
+  
+  /* About Author */
+  .about-section{background:#fff; max-width:900px; margin:30px auto; padding:40px 35px; border-radius:20px; box-shadow:0 8px 24px rgba(108,19,31,0.15); text-align:center;}
+  .author-photo{width:220px; height:220px; border-radius:50%; object-fit:cover; margin:0 auto 20px; box-shadow:0 10px 30px rgba(108,19,31,0.3); border:6px solid #fff;}
+  .about-section h3{font-size:clamp(20px, 3vw, 26px); font-weight:900; color:var(--burgundy); margin-bottom:12px;}
+  .about-section h4{font-size:clamp(18px, 2.5vw, 22px); font-weight:800; color:#1a0505; margin-bottom:16px; line-height:1.3;}
+  .about-section p{font-size:15px; color:#4a0a0a; line-height:1.7; margin-bottom:14px; text-align:left;}
+  .about-section p:last-of-type{margin-bottom:0;}
+  .disclaimer-box{background:rgba(108,19,31,0.05); padding:16px 20px; border-radius:12px; margin-top:20px; border-left:4px solid var(--burgundy);}
+  .disclaimer-box p{font-size:14px; color:var(--burgundy); font-weight:600; margin:0; text-align:left;}
+  
+  /* Pricing */
+  .pricing{background:#fff; max-width:500px; margin:25px auto; padding:35px 28px; border-radius:20px; text-align:center; box-shadow:0 8px 30px rgba(108,19,31,0.15);}
+  .price{font-size:42px; font-weight:900; color:var(--burgundy); margin-bottom:18px;}
+  .price small{font-size:16px; color:#6C131F;}
+  .features{text-align:left; margin:18px 0;}
+  .features li{display:flex; align-items:start; gap:10px; margin-bottom:10px; font-size:14px; font-weight:600;}
+  .features svg{color:var(--redwood); flex-shrink:0; margin-top:2px;}
+  
+  /* FAQ */
+  .faq{max-width:700px; margin:25px auto 0;}
+  .faq-item{background:#fff; margin-bottom:10px; border-radius:12px; overflow:hidden; box-shadow:0 2px 8px rgba(108,19,31,0.1);}
+  .faq-q{padding:14px 18px; font-weight:700; font-size:15px; cursor:pointer; display:flex; justify-content:space-between; align-items:center;}
+  .faq-q svg{transition:transform .3s;}
+  .faq-item.open .faq-q svg{transform:rotate(180deg);}
+  .faq-a{max-height:0; overflow:hidden; transition:max-height .3s;}
+  .faq-a p{padding:0 18px 14px; font-size:14px; color:#4a0a0a;}
+  .faq-item.open .faq-a{max-height:300px;}
+  
+  /* Footer */
+  footer{background:#fff; padding:35px 20px 18px; text-align:center; box-shadow:0 -2px 10px rgba(108,19,31,0.1);}
+  .footer-text{font-size:13px; color:#6C131F; margin-top:16px;}
+  .disclaimer{font-size:12px; color:#4a0a0a; max-width:700px; margin:16px auto 0; line-height:1.6;}
+  
+  @media(max-width:768px){
+    .nav-links{display:none;}
+    .hamburger{display:flex;}
+    .hero{padding:40px 20px 25px;}
+    .hero h1{font-size:26px;}
+    section{padding:30px 16px;}
+    .badges{grid-template-columns:repeat(2, 1fr);}
+  }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+  <div class="container">
+    <div class="nav">
+      <div class="logo">
+        <img src="img/logo_1.jpg" alt="WaveRide" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+        <span style="display:none;">WaveRide</span>
+      </div>
+      <nav class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <div class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#features">Features</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#faq">FAQ</a>
+  </div>
+</header>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="container">
+    <h1>Trade Where Price <span>Actually</span> Reacts.</h1>
+    <p>Stop guessing the market. Get instant access to the Supply & Demand Zones Indicator now.</p>
+    <a href="https://selar.com/tk9s4g61x8" target="_blank" rel="noopener" class="btn">
+      Get it today for ₦10,800 ($7.5)
+    </a>
+    
+    <div class="hero-img">
+      <img src="img/hero_image.jpg" alt="WaveRide Indicator">
+    </div>
+    
+    <div class="badges">
+      <span class="badge">✅ No random entries</span>
+      <span class="badge">✅ No late trades</span>
+      <span class="badge">✅ No messy charts</span>
+      <span class="badge">✅ Clear entry signals</span>
+    </div>
+  </div>
+</section>
+
+<!-- Markets -->
+<section style="padding:25px 20px;">
+  <div class="container">
+    <h2 class="section-title" style="font-size:clamp(20px, 3.5vw, 28px); margin-bottom:20px;">Works On All Major Markets</h2>
+    <div class="badges">
+      <span class="badge">MT5 Platform</span>
+      <span class="badge">Forex</span>
+      <span class="badge">Crypto</span>
+      <span class="badge">Synthetics</span>
+      <span class="badge">Indices</span>
+      <span class="badge">Commodities</span>
+    </div>
+  </div>
+</section>
+
+<!-- How It Works -->
+<section id="features">
+  <div class="container">
+    <h2 class="section-title">What This Video Explains</h2>
+    
+    <!-- YouTube Video Embed -->
+    <div class="video-container" id="videoContainer">
+      <iframe id="youtubeVideo" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      <div class="video-placeholder" id="videoPlaceholder">
+        <img src="img/hero_image.jpg" alt="Video thumbnail">
+        <div class="play-overlay">
+          <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+            <circle cx="40" cy="40" r="40" fill="rgba(108,19,31,0.9)"/>
+            <path d="M32 26L56 40L32 54V26Z" fill="white"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+    
+    <div class="video-description">
+      <p style="margin-bottom:20px; font-size:15px; color:#4a0a0a; line-height:1.7;">This video demonstrates the complete process of locating genuine supply and demand zones using our systematic approach.</p>
+      <p style="margin-bottom:20px; font-size:15px; color:#4a0a0a; line-height:1.7;">Rather than manually marking zones or making assumptions, you'll see exactly how the indicator identifies institutional trading areas, validates their strength, and helps you execute precise trades with clear entry and exit points.</p>
+      <p style="margin-bottom:20px; font-weight:700; font-size:15px; color:#1a0505;">What you'll learn from this video:</p>
+      <ul class="video-points">
+        <li>✅ <strong>Understanding institutional zones</strong> and their significance in price action</li>
+        <li>✅ <strong>Zone validation criteria</strong> — distinguishing strong zones from weak ones</li>
+        <li>✅ Automatic filtering that eliminates unreliable trading levels</li>
+        <li>✅ Precise placement of entries, stop-losses, and profit targets</li>
+        <li>✅ <strong>Reading institutional activity</strong> through zone formations and reactions</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section>
+  <div class="container">
+    <h2 class="section-title">What Traders Are Saying</h2>
+    <div class="testimonial-grid">
+      <div class="testimonial">
+        <img src="img/testimony_1.jpg" alt="Testimonial">
+      </div>
+      <div class="testimonial">
+        <img src="img/testimony_2.jpg" alt="Testimonial">
+      </div>
+      <div class="testimonial">
+        <img src="img/testimony_3.jpg" alt="Testimonial">
+      </div>
+      <div class="testimonial">
+        <img src="img/testimony_4.jpg" alt="Testimonial">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing -->
+<section id="pricing">
+  <div class="container">
+    <h2 class="section-title">₦10,800 ($7.5) — Everything Included</h2>
+    <div class="pricing">
+      <div class="price">₦10,800 <small>/ one-time</small></div>
+      <ul class="features">
+        <li><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg> Supply & Demand Zone Indicator</li>
+        <li><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg> Complete Setup Guide</li>
+        <li><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg> Telegram Support</li>
+        <li><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg> Works on All Markets</li>
+        <li><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg> Inner Circle Community</li>
+      </ul>
+      <a href="https://selar.com/tk9s4g61x8" target="_blank" rel="noopener" class="btn" style="width:100%; justify-content:center;">Buy Now!!!</a>
+      <p style="font-size:12px; color:#6C131F; margin-top:16px;">One-Time Payment • Instant Download</p>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="container">
+    <h2 class="section-title">Frequently Asked Questions</h2>
+    <div class="faq">
+      <div class="faq-item">
+        <div class="faq-q">Can it work on mobile? <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div>
+        <div class="faq-a"><p>Yes, it works on both desktop and mobile MT5 trading platforms.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">How long does installation take on MT5? <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div>
+        <div class="faq-a"><p>Installation takes less than 5 minutes. Full setup guide included with your purchase.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Does it tell me where to buy and sell, including TP & SL? <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div>
+        <div class="faq-a"><p>Yes. It marks the supply and demand zones where price is likely to react, including entry points, stop-loss (SL), and take-profit (TP) levels.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What's the minimum deposit? <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div>
+        <div class="faq-a"><p>The indicator works on any account size. Your broker sets minimum deposit requirements, not the indicator.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Do you use anything else to trade? <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div>
+        <div class="faq-a"><p>The indicator provides supply and demand zones with entry/exit signals. You can use it standalone or combine it with your existing trading strategy for confirmation.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="text-align:center; padding:40px 20px;">
+  <div class="container">
+    <h2 class="section-title">Don't wait until price already moved.</h2>
+    <p class="section-sub">Secure your copy now and stay ahead of the market.</p>
+    <a href="https://selar.com/tk9s4g61x8" target="_blank" rel="noopener" class="btn">Get it today for ₦10,800 ($7.5)</a>
+  </div>
+</section>
+
+<!-- About the Author -->
+<section>
+  <div class="container">
+    <div class="about-section">
+      <img src="img/author.png" alt="HT Solutions" class="author-photo" onerror="this.src='img/logo_2.jpg'">
+      <h3>Meet the Creator</h3>
+      <p style="font-size:17px; font-weight:700; color:var(--burgundy); margin-bottom:18px; text-align:center;">HT Solutions</p>
+      <h4>I don't believe in "get-rich-quick" trading. I believe in discipline, patience, and controlled risk.</h4>
+      <p>After years of studying technical analysis, price behavior, and risk management, I realized most traders suffer from inconsistency — not lack of strategy. That insight led me to develop structured systems that help traders manage risk and remove emotional mistakes.</p>
+      <p>The WaveRide indicator was built from this foundation — to identify institutional zones with precision and provide clear entry/exit signals without the guesswork.</p>
+      <div class="disclaimer-box">
+        <p>⚠️ Risk Disclaimer: Trading involves risk and losses are part of the process. Past performance does not guarantee future results. Only trade with money you can afford to lose.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="logo" style="margin-bottom:16px;">WaveRide System</div>
+    <p class="footer-text">© <span id="year"></span> WaveRide System. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+  
+  // Hamburger Menu
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  
+  hamburger?.addEventListener('click', () => {
+    hamburger.classList.toggle('active');
+    mobileMenu.classList.toggle('open');
+  });
+  
+  // Close menu when clicking a link
+  mobileMenu?.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      hamburger.classList.remove('active');
+      mobileMenu.classList.remove('open');
+    });
+  });
+  
+  // FAQ
+  document.querySelectorAll('.faq-item').forEach(item => {
+    item.querySelector('.faq-q').addEventListener('click', () => {
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+  
+  // YouTube Video Auto-play on Scroll/Hover
+  const videoContainer = document.getElementById('videoContainer');
+  const videoPlaceholder = document.getElementById('videoPlaceholder');
+  const youtubeVideo = document.getElementById('youtubeVideo');
+  
+  // IMPORTANT: Replace 'YOUR_YOUTUBE_VIDEO_ID' with your actual YouTube video ID
+  // Example: If your video URL is https://www.youtube.com/watch?v=dQw4w9WgXcQ
+  // Then the ID is: dQw4w9WgXcQ
+  const YOUTUBE_VIDEO_ID = 'YOUR_YOUTUBE_VIDEO_ID'; // ← Replace this!
+  
+  let videoLoaded = false;
+  
+  function loadAndPlayVideo() {
+    if (!videoLoaded) {
+      youtubeVideo.src = `https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}?autoplay=1&rel=0&modestbranding=1`;
+      videoContainer.classList.add('playing');
+      videoLoaded = true;
+    }
+  }
+  
+  // Play on click
+  videoPlaceholder?.addEventListener('click', loadAndPlayVideo);
+  
+  // Play on hover
+  videoContainer?.addEventListener('mouseenter', loadAndPlayVideo);
+  
+  // Play on scroll into view
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
+        loadAndPlayVideo();
+      }
+    });
+  }, { threshold: 0.5 });
+  
+  if (videoContainer) {
+    observer.observe(videoContainer);
+  }
+</script>
+</body>
+</html>
