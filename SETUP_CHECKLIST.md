@@ -36,7 +36,7 @@ Your findings about CAPI being essential in 2026 are **100% accurate**. Here's w
 
 ### 4. Testing
 - [ ] Install Meta Pixel Helper extension
-- [ ] Visit your page → Verify PageView fires
+- [ ] Visit https://hakinz0110-waveride.vercel.app/ → Verify PageView fires
 - [ ] Make test purchase
 - [ ] Check Events Manager for Purchase event
 - [ ] Verify Purchase event has "Server" badge (CAPI)
@@ -108,6 +108,7 @@ Your findings about CAPI being essential in 2026 are **100% accurate**. Here's w
 - [Selar CAPI Setup](https://help.selar.com/portal/en/kb/articles/meta-conversions-api-capi-setup-on-selar)
 - [Meta Events Manager](https://business.facebook.com/events_manager)
 - [Meta Pixel Helper](https://chrome.google.com/webstore/detail/meta-pixel-helper/)
+- [Your Live Site](https://hakinz0110-waveride.vercel.app/)
 - [Your GitHub Repo](https://github.com/hakinz0110/WaveRide)
 
 ---

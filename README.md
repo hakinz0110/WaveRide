@@ -1,50 +1,139 @@
-# WaveRide Landing Page
+# WaveRide - Supply & Demand Zone Indicator
 
-A single-file, Apple-style glassmorphism landing page for the WaveRide indicator. No build step — just static HTML/CSS/JS.
+A professional landing page for the WaveRide trading indicator with integrated Meta Ads tracking and Selar payment processing.
 
-## 1. Add your images
+## 🌐 Live Site
+**https://hakinz0110-waveride.vercel.app/**
 
-Drop these files into the `img/` folder (same names, so the page picks them up automatically):
+## 📦 What's Included
 
-| File | Used for |
-|---|---|
-| `img/logo_1.png` | Navbar + footer logo (falls back to a wave icon if missing) |
-| `img/bot_image.png` | Hero visual |
-| `img/testimony-1.png` | Testimonial screenshot 1 |
-| `img/testimony-2.png` | Testimonial screenshot 2 |
-| `img/testimony-3.png` | Testimonial screenshot 3 |
-| `img/author.png` | About-the-author photo |
+- ✅ Professional landing page design
+- ✅ Meta Pixel tracking (Pixel ID: 1888089975192177)
+- ✅ Selar payment integration (https://selar.com/tk9s4g61x8)
+- ✅ Meta Conversions API (CAPI) setup guide
+- ✅ Responsive design (mobile, tablet, desktop)
+- ✅ 4 testimonial showcases
+- ✅ FAQ section
+- ✅ Video integration ready
 
-Until a file is added, that spot shows a clean placeholder label instead of a broken image icon — so the page still looks presentable.
+## 💰 Product Details
 
-## 2. Edit the "About the author" text
+- **Price:** ₦10,800 ($7.5)
+- **Payment:** One-time purchase via Selar
+- **Includes:**
+  - Supply & Demand Zone Indicator
+  - Complete Setup Guide
+  - Telegram Support
+  - Works on All Markets (Forex, Crypto, Synthetics, Indices, Commodities)
+  - Inner Circle Community
 
-Open `index.html`, search for `[Add 2–3 sentences here...]` and `[Optional: mention the markets...]` and replace with your real bio. These were left as placeholders instead of invented facts.
+## 🎯 Meta Ads Setup
 
-## 3. Push to GitHub
+This landing page is optimized for Meta (Facebook) advertising with:
+- **Pixel tracking** for page views and user behavior
+- **Conversions API (CAPI)** for bulletproof purchase tracking
+- **Event deduplication** to prevent double-counting
+- **Advanced Matching** for better audience targeting
 
-```bash
-git init
-git add .
-git commit -m "WaveRide landing page"
-git branch -M main
-git remote add origin https://github.com/<your-username>/<repo-name>.git
-git push -u origin main
+### Quick Setup:
+1. Read `META_ADS_SETUP.md` for complete instructions
+2. Use `SETUP_CHECKLIST.md` to track your progress
+3. Your Pixel ID is already configured: `1888089975192177`
+4. Configure CAPI in your Selar dashboard
+
+## 📁 File Structure
+
+```
+WaveRide/
+├── index.html                 # Main landing page
+├── img/                       # Images folder
+│   ├── logo_1.jpg            # Primary logo
+│   ├── hero_image.jpg        # Hero section image
+│   ├── author.png            # Author photo
+│   ├── testimony_1-4.jpg     # Testimonial screenshots
+├── META_ADS_SETUP.md         # Complete Meta Ads setup guide
+├── SETUP_CHECKLIST.md        # Step-by-step checklist
+└── README.md                 # This file
 ```
 
-## 4. Deploy to Vercel
+## 🚀 Deployment
 
-1. Go to [vercel.com/new](https://vercel.com/new) and import the GitHub repo.
-2. Framework preset: **Other** (it's static HTML, no build command needed).
-3. Root directory: leave as `/`.
-4. Deploy — Vercel will serve `index.html` at your project's root URL.
+**Vercel (Current):**
+- Deployed at: https://hakinz0110-waveride.vercel.app/
+- Auto-deploys from GitHub on push
+- Fast CDN delivery
 
-Every push to `main` will auto-redeploy.
+**GitHub Pages (Alternative):**
+- Available at: https://hakinz0110.github.io/WaveRide/
+- Simple hosting option
 
-## Notes
+## 🔧 Customization
 
-- Buy Now buttons link to: `https://selar.com/tk9s4g61x8`
-- Price shown: ₦10,800 (~$7)
-- Icons: [Lucide](https://lucide.dev) via CDN
-- Scroll animations: [AOS](https://michalsnik.github.io/aos/) via CDN
-- Fonts: Inter (Google Fonts), falling back to `-apple-system` / SF Pro on Apple devices
+### Add Your YouTube Video:
+Open `index.html` and find line ~397:
+```javascript
+const YOUTUBE_VIDEO_ID = 'YOUR_YOUTUBE_VIDEO_ID';
+```
+Replace with your actual YouTube video ID.
+
+### Update Prices:
+All prices are currently set to ₦10,800 ($7.5). Search for these values in `index.html` to update.
+
+### Change Selar Link:
+Current link: https://selar.com/tk9s4g61x8
+Search and replace in `index.html` if needed.
+
+## 📊 Tracking & Analytics
+
+### What Gets Tracked:
+- **PageView** - When someone visits your page
+- **ViewContent** - When they scroll and engage
+- **InitiateCheckout** - When they click "Buy Now"
+- **Purchase** - When payment completes (via Selar CAPI)
+
+### View Your Data:
+- [Meta Events Manager](https://business.facebook.com/events_manager)
+- Look for Pixel ID: 1888089975192177
+
+## 🎯 Running Meta Ads
+
+1. **Campaign Objective:** Sales (Conversions)
+2. **Conversion Event:** Purchase
+3. **Optimization:** Conversions
+4. **Bidding:** Lowest cost per purchase
+5. **Budget:** Start with ₦5,000-10,000/day
+6. **Audience:** Broad initially (let Meta optimize)
+
+## ✅ Pre-Launch Checklist
+
+- [x] Landing page deployed
+- [x] Meta Pixel installed
+- [x] Selar payment link active
+- [ ] YouTube video added
+- [ ] Selar CAPI configured
+- [ ] Meta Ads campaign created
+- [ ] Test purchase completed
+- [ ] Pixel verified with Meta Pixel Helper
+
+## 📞 Support
+
+- **Selar Support:** support@selar.co
+- **Meta Business Help:** https://www.facebook.com/business/help
+
+## 📄 License
+
+All rights reserved © WaveRide System
+
+---
+
+## 🚨 Important Notes
+
+- Keep your CAPI Access Token secure (never commit to Git)
+- Test your pixel before launching ads
+- Wait 7 days for Meta's learning phase
+- Don't change campaigns during learning phase
+- Target EMQ score of 6.0+ for best results
+
+---
+
+**Ready to launch your ads and start selling!** 🚀

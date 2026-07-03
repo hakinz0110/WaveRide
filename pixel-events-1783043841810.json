@@ -1,0 +1,90 @@
+{
+  "meta": {
+    "exportedAt": "2026-07-03T01:57:21.807Z",
+    "tool": "Pixel Helper Pro for Meta",
+    "version": "1.0.0",
+    "url": "https://hakinz0110-waveride.vercel.app/",
+    "domain": "hakinz0110-waveride.vercel.app",
+    "sessionStarted": "2026-07-03T01:56:00.030Z"
+  },
+  "summary": {
+    "pixelIds": [
+      "1888089975192177"
+    ],
+    "health": {
+      "score": 4,
+      "label": "Healthy",
+      "detail": "Pixel implementation looks great!"
+    },
+    "stats": {
+      "total": 2,
+      "errors": 0,
+      "warnings": 0,
+      "duplicates": 0,
+      "pixelCount": 1,
+      "customEvents": 0,
+      "standardEvents": 1,
+      "healthScore": 0,
+      "healthGrade": "N/A",
+      "healthStatus": "No Data",
+      "anomalyCount": 0,
+      "criticalAnomalies": 0
+    },
+    "eventPatterns": {
+      "1888089975192177": {
+        "count": 1,
+        "errors": 0,
+        "lastTs": 1783043760059,
+        "category": "init"
+      },
+      "PageView": {
+        "count": 1,
+        "errors": 0,
+        "lastTs": 1783043760060,
+        "category": "pageview"
+      }
+    }
+  },
+  "events": [
+    {
+      "id": "mr4a7uezkg6wp",
+      "timestamp": "2026-07-03T01:56:00.059Z",
+      "relativeMs": 0,
+      "method": "init",
+      "eventName": "1888089975192177",
+      "category": "init",
+      "complianceScore": 100,
+      "isDuplicate": false,
+      "params": null,
+      "options": null,
+      "errors": [],
+      "warnings": [],
+      "pixelIds": [
+        "1888089975192177"
+      ],
+      "pixelVersion": "2.0",
+      "url": "https://hakinz0110-waveride.vercel.app/",
+      "fromQueue": false
+    },
+    {
+      "id": "mr4a7uf04c6ls",
+      "timestamp": "2026-07-03T01:56:00.060Z",
+      "relativeMs": 1,
+      "method": "track",
+      "eventName": "PageView",
+      "category": "pageview",
+      "complianceScore": 100,
+      "isDuplicate": false,
+      "params": null,
+      "options": null,
+      "errors": [],
+      "warnings": [],
+      "pixelIds": [
+        "1888089975192177"
+      ],
+      "pixelVersion": "2.0",
+      "url": "https://hakinz0110-waveride.vercel.app/",
+      "fromQueue": false
+    }
+  ]
+}
