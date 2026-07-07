@@ -241,7 +241,7 @@ src="https://www.facebook.com/tr?id=1888089975192177&ev=PageView&noscript=1"
     
     <!-- Video Player -->
     <div class="video-container" id="videoContainer">
-      <video id="localVideo" controls playsinline preload="metadata" poster="img/hero_image.jpg">
+      <video id="localVideo" controls playsinline preload="metadata" poster="img/hero_image.jpg" muted>
         <source src="img/SetupGuid.mp4" type="video/mp4">
         Your browser does not support the video tag.
       </video>
@@ -278,6 +278,18 @@ src="https://www.facebook.com/tr?id=1888089975192177&ev=PageView&noscript=1"
       </div>
       <div class="testimonial">
         <img src="img/testimony_4.jpg" alt="Testimonial">
+      </div>
+      <div class="testimonial">
+        <img src="img/testimony_5.jpg" alt="Testimonial">
+      </div>
+      <div class="testimonial">
+        <img src="img/testimony_6.jpg" alt="Testimonial">
+      </div>
+      <div class="testimonial">
+        <img src="img/testimony_7.jpg" alt="Testimonial">
+      </div>
+      <div class="testimonial">
+        <img src="img/testimony_8.jpg" alt="Testimonial">
       </div>
     </div>
   </div>
@@ -402,11 +414,19 @@ src="https://www.facebook.com/tr?id=1888089975192177&ev=PageView&noscript=1"
   
   function playLocalVideo() {
     if (!videoStarted && localVideo) {
-      localVideo.play().catch(err => {
-        // Auto-play blocked, user needs to click play
-        console.log('Auto-play prevented:', err);
+      // Start muted for autoplay to work
+      localVideo.muted = true;
+      localVideo.play().then(() => {
+        videoStarted = true;
+        // Unmute after a brief moment (user can control volume)
+        setTimeout(() => {
+          localVideo.muted = false;
+          localVideo.volume = 0.7; // Set to 70% volume
+        }, 500);
+      }).catch(err => {
+        // Auto-play blocked, video stays ready for user click
+        console.log('Auto-play prevented - user interaction needed:', err);
       });
-      videoStarted = true;
     }
   }
   
@@ -414,7 +434,7 @@ src="https://www.facebook.com/tr?id=1888089975192177&ev=PageView&noscript=1"
   videoContainer?.addEventListener('mouseenter', playLocalVideo);
   
   // Play on scroll into view
-  const observer = new IntersectionObserver((entries) => {
+  const videoObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
         playLocalVideo();
@@ -423,7 +443,7 @@ src="https://www.facebook.com/tr?id=1888089975192177&ev=PageView&noscript=1"
   }, { threshold: 0.5 });
   
   if (videoContainer) {
-    observer.observe(videoContainer);
+    videoObserver.observe(videoContainer);
   }
 </script>
 </body>
