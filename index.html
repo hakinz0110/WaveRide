@@ -101,7 +101,7 @@ src="https://www.facebook.com/tr?id=1888089975192177&ev=PageView&noscript=1"
   
   /* Video Container */
   .video-container{position:relative; max-width:900px; margin:25px auto; border-radius:16px; overflow:hidden; box-shadow:0 8px 24px rgba(108,19,31,0.15); background:#000;}
-  .video-container video{width:100%; height:auto; display:block; border-radius:16px;}
+  .video-container video{width:100%; height:auto; display:block;}
   
   /* Video placeholder styles removed - using native controls */
   
@@ -241,10 +241,14 @@ src="https://www.facebook.com/tr?id=1888089975192177&ev=PageView&noscript=1"
     
     <!-- Video Player -->
     <div class="video-container" id="videoContainer">
-      <video id="localVideo" controls playsinline preload="metadata" poster="img/hero_image.jpg" muted>
+      <video id="localVideo" controls playsinline preload="auto" muted autoplay loop>
         <source src="img/SetupGuid.mp4" type="video/mp4">
         Your browser does not support the video tag.
       </video>
+      <div id="unmuteBtn" style="position:absolute; top:20px; right:20px; background:rgba(108,19,31,0.9); color:#fff; padding:10px 20px; border-radius:50px; cursor:pointer; font-weight:700; font-size:14px; display:flex; align-items:center; gap:8px; z-index:10;">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5zM15.54 8.46a5 5 0 010 7.07M19.07 4.93a10 10 0 010 14.14"/></svg>
+        Click to Unmute
+      </div>
     </div>
     
     <div class="video-description">
@@ -406,44 +410,24 @@ src="https://www.facebook.com/tr?id=1888089975192177&ev=PageView&noscript=1"
     });
   });
   
-  // Native Video Auto-play on Scroll/Hover
-  const videoContainer = document.getElementById('videoContainer');
-  const localVideo = document.getElementById('localVideo');
+  // Video autoplay and unmute functionality
+  const video = document.getElementById('localVideo');
+  const unmuteBtn = document.getElementById('unmuteBtn');
   
-  let videoStarted = false;
-  
-  function playLocalVideo() {
-    if (!videoStarted && localVideo) {
-      // Start muted for autoplay to work
-      localVideo.muted = true;
-      localVideo.play().then(() => {
-        videoStarted = true;
-        // Unmute after a brief moment (user can control volume)
-        setTimeout(() => {
-          localVideo.muted = false;
-          localVideo.volume = 0.7; // Set to 70% volume
-        }, 500);
-      }).catch(err => {
-        // Auto-play blocked, video stays ready for user click
-        console.log('Auto-play prevented - user interaction needed:', err);
-      });
-    }
-  }
-  
-  // Play on hover
-  videoContainer?.addEventListener('mouseenter', playLocalVideo);
-  
-  // Play on scroll into view
-  const videoObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
-        playLocalVideo();
+  // Unmute when button is clicked
+  if (unmuteBtn && video) {
+    unmuteBtn.addEventListener('click', () => {
+      video.muted = false;
+      video.volume = 0.8;
+      unmuteBtn.style.display = 'none';
+    });
+    
+    // Hide button if user unmutes via video controls
+    video.addEventListener('volumechange', () => {
+      if (!video.muted) {
+        unmuteBtn.style.display = 'none';
       }
     });
-  }, { threshold: 0.5 });
-  
-  if (videoContainer) {
-    videoObserver.observe(videoContainer);
   }
 </script>
 </body>
