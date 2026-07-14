@@ -445,10 +445,12 @@ src="https://www.facebook.com/tr?id=1888089975192177&ev=PageView&noscript=1"
     transform:translateX(-400px);
     transition:transform .5s ease;
     border-left:4px solid var(--green);
+    pointer-events:none;
   }
   
   .proof-notification.show{
     transform:translateX(0);
+    pointer-events:all;
   }
   
   .proof-avatar{
