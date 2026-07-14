@@ -83,8 +83,10 @@ src="https://www.facebook.com/tr?id=1888089975192177&ev=PageView&noscript=1"
   .hero h1{font-size:clamp(28px, 5vw, 48px); font-weight:900; line-height:1.1; margin-bottom:14px;}
   .hero h1 span{color:var(--burgundy);}
   .hero p{font-size:16px; color:#4a0a0a; margin-bottom:20px; max-width:600px; margin-left:auto; margin-right:auto;}
-  .hero-img{max-width:700px; margin:35px auto 0; border-radius:16px; box-shadow:0 12px 40px rgba(108,19,31,0.2); overflow:hidden;}
-  .hero-img img{width:100%;}
+  .hero-img{max-width:700px; margin:35px auto 0; border-radius:16px; box-shadow:0 12px 40px rgba(108,19,31,0.2); overflow:hidden; position:relative;}
+  .hero-img img{width:100%; display:none;}
+  .hero-img img.active{display:block;}
+  .hero-img img{animation:fadeIn 0.5s ease-in;}
   .badges{display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:12px; margin-top:20px; font-size:13px; font-weight:700; color:#4a0a0a; max-width:900px; margin-left:auto; margin-right:auto;}
   .badge{background:#fff; padding:10px 16px; border-radius:999px; box-shadow:0 2px 8px rgba(108,19,31,0.1); text-align:center;}
   
@@ -167,6 +169,12 @@ src="https://www.facebook.com/tr?id=1888089975192177&ev=PageView&noscript=1"
     .badges{grid-template-columns:repeat(2, 1fr);}
   }
   
+  /* Fade animation for carousel */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
   /* WhatsApp Float Button */
   .whatsapp-float{
     position:fixed;
@@ -234,8 +242,10 @@ src="https://www.facebook.com/tr?id=1888089975192177&ev=PageView&noscript=1"
       Get it today for ₦10,800 ($7.5)
     </a>
     
-    <div class="hero-img">
-      <img src="img/hero_image.jpg" alt="WaveRide Indicator">
+    <div class="hero-img" id="heroCarousel">
+      <img src="img/c1.png" alt="WaveRide Indicator" class="active">
+      <img src="img/c2.png" alt="WaveRide Indicator">
+      <img src="img/c3.png" alt="WaveRide Indicator">
     </div>
     
     <div class="badges">
@@ -387,9 +397,6 @@ src="https://www.facebook.com/tr?id=1888089975192177&ev=PageView&noscript=1"
       <h4>I don't believe in "get-rich-quick" trading. I believe in discipline, patience, and controlled risk.</h4>
       <p>After years of studying technical analysis, price behavior, and risk management, I realized most traders suffer from inconsistency — not lack of strategy. That insight led me to develop structured systems that help traders manage risk and remove emotional mistakes.</p>
       <p>The WaveRide indicator was built from this foundation — to identify institutional zones with precision and provide clear entry/exit signals without the guesswork.</p>
-      <div class="disclaimer-box">
-        <p>⚠️ Risk Disclaimer: Trading involves risk and losses are part of the process. Past performance does not guarantee future results. Only trade with money you can afford to lose.</p>
-      </div>
     </div>
   </div>
 </section>
@@ -404,6 +411,19 @@ src="https://www.facebook.com/tr?id=1888089975192177&ev=PageView&noscript=1"
 
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
+  
+  // Hero Image Carousel Auto-slide
+  const carousel = document.getElementById('heroCarousel');
+  if (carousel) {
+    const images = carousel.querySelectorAll('img');
+    let currentIndex = 0;
+    
+    setInterval(() => {
+      images[currentIndex].classList.remove('active');
+      currentIndex = (currentIndex + 1) % images.length;
+      images[currentIndex].classList.add('active');
+    }, 3000); // Change image every 3 seconds
+  }
   
   // Hamburger Menu
   const hamburger = document.getElementById('hamburger');
