@@ -707,8 +707,8 @@ src="https://www.facebook.com/tr?id=1888089975192177&ev=PageView&noscript=1"
 
 <!-- Floating Stats Badge -->
 <div class="floating-stats">
-  <span class="stat-number" id="liveCount">127</span>
-  <span class="stat-label">🔴 Viewing Now</span>
+  <span class="stat-number">100%</span>
+  <span class="stat-label">📱 Works on Mobile</span>
   <div class="pulse-dot"></div>
 </div>
 
@@ -1204,16 +1204,6 @@ src="https://www.facebook.com/tr?id=1888089975192177&ev=PageView&noscript=1"
     setTimeout(showProofNotification, randomDelay);
   }, 15000);
   
-  // Live viewer count animation
-  const liveCount = document.getElementById('liveCount');
-  let currentCount = 127;
-  
-  setInterval(() => {
-    const change = Math.floor(Math.random() * 5) - 2; // -2 to +2
-    currentCount = Math.max(85, Math.min(150, currentCount + change));
-    liveCount.textContent = currentCount;
-  }, 3000);
-  
   // Urgency Timer Countdown
   const urgencyTimer = document.getElementById('urgencyTimer');
   let timeLeft = 23 * 3600 + 45 * 60 + 12; // 23:45:12 in seconds
@@ -1240,3 +1230,4 @@ src="https://www.facebook.com/tr?id=1888089975192177&ev=PageView&noscript=1"
 
 </body>
 </html>
+
