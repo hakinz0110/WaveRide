@@ -619,7 +619,27 @@ src="https://www.facebook.com/tr?id=1888089975192177&ev=PageView&noscript=1"
       left:10px;
       right:10px;
       max-width:calc(100% - 20px);
-      bottom:90px;
+      bottom:110px;
+      padding:10px 12px;
+    }
+    
+    .proof-avatar{
+      width:35px;
+      height:35px;
+      font-size:14px;
+    }
+    
+    .proof-content strong{
+      font-size:12px;
+    }
+    
+    .proof-content span{
+      font-size:10px;
+    }
+    
+    .proof-badge{
+      font-size:9px;
+      padding:2px 6px;
     }
     
     .ticker-wrapper{
@@ -1095,19 +1115,23 @@ src="https://www.facebook.com/tr?id=1888089975192177&ev=PageView&noscript=1"
     
     proofNotification.classList.add('show');
     
+    // Shorter display time on mobile
+    const displayTime = window.innerWidth > 768 ? 5000 : 3000;
+    
     setTimeout(() => {
       proofNotification.classList.remove('show');
-    }, 5000);
+    }, displayTime);
   }
   
-  // Show first notification after 3 seconds
-  setTimeout(showProofNotification, 3000);
+  // Show first notification after 5 seconds
+  setTimeout(showProofNotification, 5000);
   
-  // Show random notifications every 8-15 seconds
+  // Show random notifications every 15-20 seconds (longer on mobile)
   setInterval(() => {
-    const randomDelay = Math.random() * 7000 + 8000; // 8-15 seconds
+    const baseDelay = window.innerWidth > 768 ? 10000 : 15000;
+    const randomDelay = Math.random() * 5000 + baseDelay;
     setTimeout(showProofNotification, randomDelay);
-  }, 15000);
+  }, 20000);
   
   // Urgency Timer Countdown
   const urgencyTimer = document.getElementById('urgencyTimer');
