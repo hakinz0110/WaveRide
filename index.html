@@ -58,6 +58,24 @@ src="https://www.facebook.com/tr?id=1888089975192177&ev=PageView&noscript=1"
   .nav-links{display:flex; gap:24px; font-size:14px; font-weight:600;}
   .nav-links a:hover{color:var(--burgundy);}
   
+  /* Timer in navbar */
+  .nav-timer{
+    display:none;
+    background:#ff4444;
+    color:#fff;
+    padding:6px 12px;
+    border-radius:6px;
+    font-size:11px;
+    font-weight:700;
+    white-space:nowrap;
+  }
+  
+  .nav-timer .timer{
+    font-size:13px;
+    margin-left:4px;
+    font-weight:900;
+  }
+  
   .hamburger{display:none; flex-direction:column; gap:5px; cursor:pointer; padding:8px;}
   .hamburger span{width:28px; height:3px; background:var(--burgundy); border-radius:2px; transition:all .3s ease;}
   .hamburger.active span:nth-child(1){transform:rotate(45deg) translate(8px, 8px);}
@@ -173,6 +191,14 @@ src="https://www.facebook.com/tr?id=1888089975192177&ev=PageView&noscript=1"
   .disclaimer{font-size:12px; color:#4a0a0a; max-width:700px; margin:16px auto 0; line-height:1.6;}
   
   @media(max-width:768px){
+    header{padding:8px 0;}
+    .logo img{height:50px; width:50px;}
+    .logo{font-size:16px;}
+    
+    .nav-timer{
+      display:block;
+    }
+    
     .nav-links{display:none;}
     .hamburger{display:flex;}
     .hero{padding:40px 20px 25px;}
@@ -617,62 +643,48 @@ src="https://www.facebook.com/tr?id=1888089975192177&ev=PageView&noscript=1"
   }
   
   @media(max-width:768px){
-    .proof-notification{
-      left:10px;
-      right:10px;
-      max-width:calc(100% - 20px);
-      bottom:110px;
-      padding:10px 12px;
-    }
-    
-    .proof-avatar{
-      width:35px;
-      height:35px;
-      font-size:14px;
-    }
-    
-    .proof-content strong{
-      font-size:12px;
-    }
-    
-    .proof-content span{
-      font-size:10px;
-    }
-    
-    .proof-badge{
-      font-size:9px;
-      padding:2px 6px;
-    }
-    
+    /* Hide all conversion widgets on mobile */
     .ticker-wrapper{
-      top:64px;
-    }
-    
-    .ticker-item{
-      font-size:12px;
-      padding:0 20px;
+      display:none;
     }
     
     .floating-stats{
-      top:100px;
-      right:10px;
-      padding:12px 15px;
-      min-width:110px;
+      display:block;
+      top:70px;
+      left:50%;
+      right:auto;
+      transform:translateX(-50%);
+      padding:8px 12px;
+      min-width:auto;
+      border-width:2px;
+      animation:floatLeftRight 4s ease-in-out infinite;
     }
     
     .floating-stats .stat-number{
-      font-size:24px;
+      font-size:18px;
+    }
+    
+    .floating-stats .stat-label{
+      font-size:9px;
+    }
+    
+    .floating-stats .pulse-dot{
+      width:6px;
+      height:6px;
+      margin:4px auto 0;
+    }
+    
+    @keyframes floatLeftRight{
+      0%, 100%{left:10px; transform:translateX(0);}
+      50%{left:auto; right:10px; transform:translateX(0);}
     }
     
     .urgency-banner{
-      top:64px;
-      font-size:11px;
-      padding:10px 16px;
-      min-width:240px;
+      display:none;
     }
     
-    .urgency-banner .timer{
-      font-size:14px;
+    .proof-notification{
+      display:none;
     }
   }
 </style>
@@ -686,6 +698,9 @@ src="https://www.facebook.com/tr?id=1888089975192177&ev=PageView&noscript=1"
       <div class="logo">
         <img src="img/logo_1.jpg" alt="WaveRide" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
         <span style="display:none;">WaveRide</span>
+      </div>
+      <div class="nav-timer">
+        ⚡ <span class="timer" id="navTimer">23:45:12</span>
       </div>
       <nav class="nav-links">
         <a href="#features">Features</a>
@@ -1137,6 +1152,7 @@ src="https://www.facebook.com/tr?id=1888089975192177&ev=PageView&noscript=1"
   
   // Urgency Timer Countdown
   const urgencyTimer = document.getElementById('urgencyTimer');
+  const navTimer = document.getElementById('navTimer');
   let timeLeft = 23 * 3600 + 45 * 60 + 12; // 23:45:12 in seconds
   
   function updateTimer() {
@@ -1144,8 +1160,10 @@ src="https://www.facebook.com/tr?id=1888089975192177&ev=PageView&noscript=1"
     const minutes = Math.floor((timeLeft % 3600) / 60);
     const seconds = timeLeft % 60;
     
-    urgencyTimer.textContent = 
-      `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    const timeString = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    
+    if (urgencyTimer) urgencyTimer.textContent = timeString;
+    if (navTimer) navTimer.textContent = timeString;
     
     timeLeft--;
     
