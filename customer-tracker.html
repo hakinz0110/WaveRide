@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WaveRide Customer Tracker</title>
+<style>
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background:#f5f5f5;
+    padding:20px;
+  }
+  
+  :root{
+    --burgundy:#6C131F;
+    --redwood:#A14B58;
+    --green:#10b981;
+    --orange:#f59e0b;
+  }
+  
+  .container{max-width:1200px; margin:0 auto;}
+  
+  h1{
+    color:var(--burgundy);
+    margin-bottom:10px;
+    font-size:28px;
+  }
+  
+  .subtitle{
+    color:#666;
+    margin-bottom:30px;
+    font-size:14px;
+  }
+  
+  /* Add Customer Form */
+  .add-form{
+    background:#fff;
+    padding:25px;
+    border-radius:12px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.1);
+    margin-bottom:30px;
+  }
+  
+  .add-form h2{
+    font-size:18px;
+    margin-bottom:20px;
+    color:var(--burgundy);
+  }
+  
+  .form-row{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
+    gap:15px;
+    margin-bottom:15px;
+  }
+  
+  .form-group{
+    display:flex;
+    flex-direction:column;
+  }
+  
+  label{
+    font-size:13px;
+    font-weight:600;
+    margin-bottom:5px;
+    color:#333;
+  }
+  
+  input, select, textarea{
+    padding:10px 12px;
+    border:1px solid #ddd;
+    border-radius:6px;
+    font-size:14px;
+    font-family:inherit;
+  }
+  
+  input:focus, select:focus, textarea:focus{
+    outline:none;
+    border-color:var(--burgundy);
+  }
+  
+  textarea{
+    resize:vertical;
+    min-height:60px;
+  }
+  
+  .btn{
+    padding:12px 24px;
+    border:none;
+    border-radius:6px;
+    font-weight:600;
+    cursor:pointer;
+    font-size:14px;
+    transition:all .3s;
+  }
+  
+  .btn-primary{
+    background:var(--burgundy);
+    color:#fff;
+  }
+  
+  .btn-primary:hover{
+    background:var(--redwood);
+  }
+  
+  .btn-small{
+    padding:6px 12px;
+    font-size:12px;
+  }
+  
+  /* Stats Cards */
+  .stats{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
+    gap:15px;
+    margin-bottom:30px;
+  }
+  
+  .stat-card{
+    background:#fff;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.1);
+  }
+  
+  .stat-card h3{
+    font-size:13px;
+    color:#666;
+    margin-bottom:8px;
+    text-transform:uppercase;
+    font-weight:600;
+  }
+  
+  .stat-card .number{
+    font-size:32px;
+    font-weight:700;
+    color:var(--burgundy);
+  }
+  
+  /* Tabs */
+  .tabs{
+    display:flex;
+    gap:10px;
+    margin-bottom:20px;
+    border-bottom:2px solid #e5e5e5;
+  }
+  
+  .tab{
+    padding:12px 24px;
+    background:none;
+    border:none;
+    font-weight:600;
+    cursor:pointer;
+    color:#666;
+    border-bottom:3px solid transparent;
+    margin-bottom:-2px;
+    transition:all .3s;
+  }
+  
+  .tab.active{
+    color:var(--burgundy);
+    border-bottom-color:var(--burgundy);
+  }
+  
+  .tab:hover{
+    color:var(--burgundy);
+  }
+  
+  /* Table */
+  .table-container{
+    background:#fff;
+    border-radius:12px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.1);
+    overflow:hidden;
+  }
+  
+  table{
+    width:100%;
+    border-collapse:collapse;
+  }
+  
+  thead{
+    background:var(--burgundy);
+    color:#fff;
+  }
+  
+  th{
+    padding:14px 12px;
+    text-align:left;
+    font-size:13px;
+    font-weight:600;
+    text-transform:uppercase;
+  }
+  
+  td{
+    padding:14px 12px;
+    font-size:14px;
+    border-bottom:1px solid #f0f0f0;
+  }
+  
+  tbody tr:hover{
+    background:#f9f9f9;
+  }
+  
+  .status-badge{
+    display:inline-block;
+    padding:4px 10px;
+    border-radius:12px;
+    font-size:12px;
+    font-weight:600;
+  }
+  
+  .status-potential{
+    background:#fef3c7;
+    color:#92400e;
+  }
+  
+  .status-bought{
+    background:#d1fae5;
+    color:#065f46;
+  }
+  
+  .actions{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+  }
+  
+  .btn-edit{
+    background:#3b82f6;
+    color:#fff;
+  }
+  
+  .btn-delete{
+    background:#ef4444;
+    color:#fff;
+  }
+  
+  .btn-convert{
+    background:var(--green);
+    color:#fff;
+  }
+  
+  .btn-whatsapp{
+    background:#25D366;
+    color:#fff;
+  }
+  
+  .empty-state{
+    padding:60px 20px;
+    text-align:center;
+    color:#999;
+  }
+  
+  .empty-state svg{
+    width:80px;
+    height:80px;
+    margin:0 auto 20px;
+    opacity:0.3;
+  }
+  
+  /* Search & Filter */
+  .toolbar{
+    display:flex;
+    gap:10px;
+    margin-bottom:20px;
+    flex-wrap:wrap;
+  }
+  
+  .search-box{
+    flex:1;
+    min-width:250px;
+  }
+  
+  .export-btn{
+    background:#10b981;
+    color:#fff;
+  }
+  
+  /* Message Templates Modal */
+  .modal{
+    display:none;
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    background:rgba(0,0,0,0.6);
+    z-index:1000;
+    align-items:center;
+    justify-content:center;
+  }
+  
+  .modal.open{
+    display:flex;
+  }
+  
+  .modal-content{
+    background:#fff;
+    padding:30px;
+    border-radius:12px;
+    max-width:600px;
+    width:90%;
+    max-height:80vh;
+    overflow-y:auto;
+  }
+  
+  .modal-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+  }
+  
+  .modal-header h3{
+    font-size:20px;
+    color:var(--burgundy);
+  }
+  
+  .close-btn{
+    background:none;
+    border:none;
+    font-size:28px;
+    cursor:pointer;
+    color:#999;
+    padding:0;
+    width:30px;
+    height:30px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  
+  .close-btn:hover{
+    color:#333;
+  }
+  
+  .message-template{
+    background:#f9f9f9;
+    padding:15px;
+    border-radius:8px;
+    margin-bottom:15px;
+    cursor:pointer;
+    transition:all .3s;
+    border:2px solid transparent;
+  }
+  
+  .message-template:hover{
+    border-color:var(--burgundy);
+    background:#fff;
+  }
+  
+  .message-template h4{
+    font-size:14px;
+    color:var(--burgundy);
+    margin-bottom:8px;
+  }
+  
+  .message-template p{
+    font-size:13px;
+    color:#666;
+    line-height:1.6;
+  }
+  
+  @media(max-width:768px){
+    .form-row{
+      grid-template-columns:1fr;
+    }
+    
+    table{
+      font-size:12px;
+    }
+    
+    th, td{
+      padding:10px 8px;
+    }
+    
+    .actions{
+      flex-direction:column;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>🎯 WaveRide Customer Tracker</h1>
+  <p class="subtitle">Manage your WhatsApp leads and customers • Send follow-up messages with one click</p>
+  
+  <!-- Stats -->
+  <div class="stats">
+    <div class="stat-card">
+      <h3>Total Contacts</h3>
+      <div class="number" id="totalCount">0</div>
+    </div>
+    <div class="stat-card">
+      <h3>Potential Buyers</h3>
+      <div class="number" id="potentialCount">0</div>
+    </div>
+    <div class="stat-card">
+      <h3>Customers (Bought)</h3>
+      <div class="number" id="boughtCount">0</div>
+    </div>
+    <div class="stat-card">
+      <h3>Conversion Rate</h3>
+      <div class="number" id="conversionRate">0%</div>
+    </div>
+  </div>
+  
+  <!-- Add Customer Form -->
+  <div class="add-form">
+    <h2>➕ Add New Contact</h2>
+    <form id="customerForm">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="name">Name *</label>
+          <input type="text" id="name" required>
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone Number *</label>
+          <input type="tel" id="phone" placeholder="+234..." required>
+        </div>
+        <div class="form-group">
+          <label for="status">Status *</label>
+          <select id="status" required>
+            <option value="potential">Potential Buyer</option>
+            <option value="bought">Already Bought</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="notes">Notes</label>
+          <textarea id="notes" placeholder="Conversation notes, follow-up details..."></textarea>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">Add Contact</button>
+    </form>
+  </div>
+  
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tab active" data-tab="all">All Contacts</button>
+    <button class="tab" data-tab="potential">Potential Buyers</button>
+    <button class="tab" data-tab="bought">Already Bought</button>
+  </div>
+  
+  <!-- Toolbar -->
+  <div class="toolbar">
+    <input type="text" class="search-box" id="searchBox" placeholder="🔍 Search by name or phone...">
+    <button class="btn export-btn" id="exportBtn">📥 Export to CSV</button>
+  </div>
+  
+  <!-- Table -->
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Phone</th>
+          <th>Status</th>
+          <th>Date Added</th>
+          <th>Notes</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody">
+        <tr>
+          <td colspan="6" class="empty-state">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+            </svg>
+            <p>No contacts yet. Add your first customer above.</p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Message Templates Modal -->
+<div class="modal" id="messageModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>📱 Send WhatsApp Message</h3>
+      <button class="close-btn" onclick="closeModal()">&times;</button>
+    </div>
+    <p style="margin-bottom:20px; font-size:14px; color:#666;">Choose a message template for <strong id="recipientName"></strong></p>
+    
+    <div class="message-template" data-template="followup1">
+      <h4>👋 Initial Follow-up</h4>
+      <p>Hi [Name]! Thanks for reaching out about the WaveRide indicator. Are you ready to take your trading to the next level? Let me know if you have any questions!</p>
+    </div>
+    
+    <div class="message-template" data-template="followup2">
+      <h4>🎯 Reminder - Limited Time</h4>
+      <p>Hi [Name], just checking in! The WaveRide Supply & Demand Indicator is still available for ₦10,800. Don't miss out on precise entry and exit signals. Ready to get started?</p>
+    </div>
+    
+    <div class="message-template" data-template="followup3">
+      <h4>💡 Value Reminder</h4>
+      <p>Hey [Name]! Just wanted to remind you that WaveRide gives you: ✅ Clear S&D zones ✅ Entry/Exit signals ✅ Works on all markets ✅ Full setup guide. Still interested?</p>
+    </div>
+    
+    <div class="message-template" data-template="support">
+      <h4>🛠️ Setup Support (For Buyers)</h4>
+      <p>Hi [Name]! Thanks for purchasing WaveRide! 🎉 I'm here to help you get set up. Have you received the indicator file and installation guide? Let me know if you need any assistance!</p>
+    </div>
+    
+    <div class="message-template" data-template="testimonial">
+      <h4>⭐ Request Testimonial</h4>
+      <p>Hi [Name]! How's your experience with WaveRide so far? I'd love to hear your feedback. If you're happy with the results, would you mind sharing a quick testimonial? 😊</p>
+    </div>
+    
+    <div class="message-template" data-template="custom">
+      <h4>✍️ Custom Message</h4>
+      <p>Open WhatsApp to write your own message</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Storage key
+  const STORAGE_KEY = 'waveride_customers';
+  
+  // Load customers from localStorage
+  let customers = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+  let currentFilter = 'all';
+  let selectedCustomer = null;
+  
+  // Message templates
+  const templates = {
+    followup1: "Hi {name}! Thanks for reaching out about the WaveRide indicator. Are you ready to take your trading to the next level? Let me know if you have any questions!",
+    followup2: "Hi {name}, just checking in! The WaveRide Supply & Demand Indicator is still available for ₦10,800. Don't miss out on precise entry and exit signals. Ready to get started?",
+    followup3: "Hey {name}! Just wanted to remind you that WaveRide gives you: ✅ Clear S&D zones ✅ Entry/Exit signals ✅ Works on all markets ✅ Full setup guide. Still interested?",
+    support: "Hi {name}! Thanks for purchasing WaveRide! 🎉 I'm here to help you get set up. Have you received the indicator file and installation guide? Let me know if you need any assistance!",
+    testimonial: "Hi {name}! How's your experience with WaveRide so far? I'd love to hear your feedback. If you're happy with the results, would you mind sharing a quick testimonial? 😊",
+    custom: ""
+  };
+  
+  // DOM Elements
+  const form = document.getElementById('customerForm');
+  const tableBody = document.getElementById('tableBody');
+  const searchBox = document.getElementById('searchBox');
+  const exportBtn = document.getElementById('exportBtn');
+  const tabs = document.querySelectorAll('.tab');
+  const modal = document.getElementById('messageModal');
+  const messageTemplates = document.querySelectorAll('.message-template');
+  
+  // Add customer
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    const customer = {
+      id: Date.now(),
+      name: document.getElementById('name').value,
+      phone: document.getElementById('phone').value,
+      status: document.getElementById('status').value,
+      notes: document.getElementById('notes').value,
+      dateAdded: new Date().toISOString()
+    };
+    
+    customers.unshift(customer);
+    saveCustomers();
+    form.reset();
+    renderTable();
+    updateStats();
+    
+    alert('✅ Contact added successfully!');
+  });
+  
+  // Open message modal
+  function openMessageModal(id) {
+    selectedCustomer = customers.find(c => c.id === id);
+    if (selectedCustomer) {
+      document.getElementById('recipientName').textContent = selectedCustomer.name;
+      modal.classList.add('open');
+    }
+  }
+  
+  // Close modal
+  function closeModal() {
+    modal.classList.remove('open');
+    selectedCustomer = null;
+  }
+  
+  // Close modal on outside click
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
+  
+  // Send message template
+  messageTemplates.forEach(template => {
+    template.addEventListener('click', () => {
+      if (!selectedCustomer) return;
+      
+      const templateType = template.dataset.template;
+      const message = templates[templateType].replace('{name}', selectedCustomer.name);
+      const phone = selectedCustomer.phone.replace(/[^0-9]/g, '');
+      const whatsappUrl = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+      
+      window.open(whatsappUrl, '_blank');
+      closeModal();
+    });
+  });
+  
+  // Delete customer
+  function deleteCustomer(id) {
+    if (confirm('Are you sure you want to delete this contact?')) {
+      customers = customers.filter(c => c.id !== id);
+      saveCustomers();
+      renderTable();
+      updateStats();
+    }
+  }
+  
+  // Convert to bought
+  function convertToBought(id) {
+    const customer = customers.find(c => c.id === id);
+    if (customer) {
+      customer.status = 'bought';
+      saveCustomers();
+      renderTable();
+      updateStats();
+      alert('🎉 Customer marked as BOUGHT!');
+    }
+  }
+  
+  // Edit customer
+  function editCustomer(id) {
+    const customer = customers.find(c => c.id === id);
+    if (customer) {
+      document.getElementById('name').value = customer.name;
+      document.getElementById('phone').value = customer.phone;
+      document.getElementById('status').value = customer.status;
+      document.getElementById('notes').value = customer.notes;
+      
+      deleteCustomer(id);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+  
+  // Save to localStorage
+  function saveCustomers() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(customers));
+  }
+  
+  // Render table
+  function renderTable() {
+    const searchTerm = searchBox.value.toLowerCase();
+    
+    let filtered = customers.filter(c => {
+      const matchesSearch = c.name.toLowerCase().includes(searchTerm) || 
+                           c.phone.includes(searchTerm);
+      const matchesFilter = currentFilter === 'all' || c.status === currentFilter;
+      return matchesSearch && matchesFilter;
+    });
+    
+    if (filtered.length === 0) {
+      tableBody.innerHTML = `
+        <tr>
+          <td colspan="6" class="empty-state">
+            <p>No contacts found.</p>
+          </td>
+        </tr>
+      `;
+      return;
+    }
+    
+    tableBody.innerHTML = filtered.map(c => `
+      <tr>
+        <td><strong>${c.name}</strong></td>
+        <td>${c.phone}</td>
+        <td><span class="status-badge status-${c.status}">${c.status === 'bought' ? '✅ Bought' : '⏳ Potential'}</span></td>
+        <td>${new Date(c.dateAdded).toLocaleDateString()}</td>
+        <td style="max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${c.notes || '-'}</td>
+        <td>
+          <div class="actions">
+            <button class="btn btn-small btn-whatsapp" onclick="openMessageModal(${c.id})">💬 Message</button>
+            ${c.status === 'potential' ? `<button class="btn btn-small btn-convert" onclick="convertToBought(${c.id})">✅ Bought</button>` : ''}
+            <button class="btn btn-small btn-edit" onclick="editCustomer(${c.id})">✏️</button>
+            <button class="btn btn-small btn-delete" onclick="deleteCustomer(${c.id})">🗑️</button>
+          </div>
+        </td>
+      </tr>
+    `).join('');
+  }
+  
+  // Update stats
+  function updateStats() {
+    const potential = customers.filter(c => c.status === 'potential').length;
+    const bought = customers.filter(c => c.status === 'bought').length;
+    const total = customers.length;
+    const conversion = total > 0 ? Math.round((bought / total) * 100) : 0;
+    
+    document.getElementById('totalCount').textContent = total;
+    document.getElementById('potentialCount').textContent = potential;
+    document.getElementById('boughtCount').textContent = bought;
+    document.getElementById('conversionRate').textContent = conversion + '%';
+  }
+  
+  // Export to CSV
+  exportBtn.addEventListener('click', () => {
+    if (customers.length === 0) {
+      alert('No data to export!');
+      return;
+    }
+    
+    const csv = [
+      ['Name', 'Phone', 'Status', 'Date Added', 'Notes'],
+      ...customers.map(c => [
+        c.name,
+        c.phone,
+        c.status === 'bought' ? 'Already Bought' : 'Potential Buyer',
+        new Date(c.dateAdded).toLocaleDateString(),
+        c.notes || ''
+      ])
+    ].map(row => row.map(cell => `"${cell}"`).join(',')).join('\n');
+    
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `waveride-customers-${new Date().toISOString().split('T')[0]}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+  
+  // Tab switching
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      currentFilter = tab.dataset.tab;
+      renderTable();
+    });
+  });
+  
+  // Search
+  searchBox.addEventListener('input', renderTable);
+  
+  // Initial render
+  renderTable();
+  updateStats();
+  
+  // Lead Capture System
+  const leadModal = document.getElementById('leadModal');
+  const leadForm = document.getElementById('leadForm');
+  const whatsappBtn = document.getElementById('whatsappBtn');
+  const closeModal = document.getElementById('closeModal');
+  const exitIntentBar = document.getElementById('exitIntentBar');
+  const exitIntentBtn = document.getElementById('exitIntentBtn');
+  
+  let leadCaptured = localStorage.getItem('waveride_lead_captured') === 'true';
+  let exitIntentShown = false;
+  
+  // Show modal when WhatsApp button clicked
+  whatsappBtn?.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (!leadCaptured) {
+      leadModal.classList.add('show');
+    } else {
+      // Already captured, go directly to WhatsApp
+      const phone = localStorage.getItem('waveride_lead_phone') || '2348102792289';
+      const name = localStorage.getItem('waveride_lead_name') || '';
+      window.open(`https://wa.me/2348102792289?text=Hi,%20I'm%20${encodeURIComponent(name)}%20interested%20in%20the%20WaveRide%20indicator`, '_blank');
+    }
+  });
+  
+  // Close modal
+  closeModal?.addEventListener('click', () => {
+    leadModal.classList.remove('show');
+  });
+  
+  // Close modal on outside click
+  leadModal?.addEventListener('click', (e) => {
+    if (e.target === leadModal) {
+      leadModal.classList.remove('show');
+    }
+  });
+  
+  // Handle lead form submission
+  leadForm?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    const name = document.getElementById('leadName').value;
+    const phone = document.getElementById('leadPhone').value;
+    
+    // Save lead data
+    localStorage.setItem('waveride_lead_captured', 'true');
+    localStorage.setItem('waveride_lead_name', name);
+    localStorage.setItem('waveride_lead_phone', phone);
+    
+    // Send to Google Sheets or your backend (optional - add later)
+    // For now, we'll just log it
+    console.log('Lead Captured:', { name, phone, timestamp: new Date().toISOString() });
+    
+    // Save to customers array for the tracker
+    const lead = {
+      id: Date.now(),
+      name: name,
+      phone: phone,
+      status: 'potential',
+      notes: 'Captured from landing page',
+      dateAdded: new Date().toISOString()
+    };
+    
+    let customers = JSON.parse(localStorage.getItem('waveride_customers')) || [];
+    customers.unshift(lead);
+    localStorage.setItem('waveride_customers', JSON.stringify(customers));
+    
+    // Close modal and redirect to WhatsApp
+    leadModal.classList.remove('show');
+    window.open(`https://wa.me/2348102792289?text=Hi,%20I'm%20${encodeURIComponent(name)}%20interested%20in%20the%20WaveRide%20indicator`, '_blank');
+  });
+  
+  // Exit intent detection (mouse leaving viewport)
+  document.addEventListener('mouseleave', (e) => {
+    if (e.clientY < 0 && !leadCaptured && !exitIntentShown) {
+      exitIntentBar.classList.add('show');
+      exitIntentShown = true;
+    }
+  });
+  
+  // Exit intent button
+  exitIntentBtn?.addEventListener('click', () => {
+    exitIntentBar.classList.remove('show');
+    leadModal.classList.add('show');
+  });
+  
+  // Show modal after 30 seconds if not captured
+  setTimeout(() => {
+    if (!leadCaptured && !exitIntentShown) {
+      leadModal.classList.add('show');
+    }
+  }, 30000);
+  
+  // Show modal on scroll (70% of page)
+  let modalShownOnScroll = false;
+  window.addEventListener('scroll', () => {
+    if (!leadCaptured && !modalShownOnScroll) {
+      const scrollPercent = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+      if (scrollPercent > 70) {
+        leadModal.classList.add('show');
+        modalShownOnScroll = true;
+      }
+    }
+  });
+
+</script>
+
+</body>
+</html>
