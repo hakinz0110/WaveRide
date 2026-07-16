@@ -1,0 +1,225 @@
+╔══════════════════════════════════════════════════════════════╗
+║   SOUTH AFRICA LANDING PAGE - SETUP CHECKLIST               ║
+╚══════════════════════════════════════════════════════════════╝
+
+📋 BEFORE YOU START
+□ Read SETUP-GUIDE-ZA.md (5 minutes)
+□ Have your Meta Business Manager access ready
+□ Have your Selar account login ready
+
+─────────────────────────────────────────────────────────────
+
+🎯 STEP 1: CREATE META PIXEL FOR SOUTH AFRICA
+□ Go to https://business.facebook.com/events_manager
+□ Click "Connect Data Sources"
+□ Select "Web" → "Meta Pixel"
+□ Name it: "WaveRide - South Africa"
+□ Copy the Pixel ID (16 digits)
+□ Write it here: _________________________________
+
+─────────────────────────────────────────────────────────────
+
+🎯 STEP 2: UPDATE PIXEL IN CODE
+□ Open index-za.html in code editor
+□ Press Ctrl+H (Find & Replace)
+□ Find: YOUR_ZA_PIXEL_ID_HERE
+□ Replace with: Your Pixel ID from Step 1
+□ Replace All (should find 2 instances)
+□ Save the file
+
+─────────────────────────────────────────────────────────────
+
+🎯 STEP 3: CREATE SELAR PRODUCT FOR ZAR
+□ Login to https://selar.co
+□ Click "Create Product"
+□ Product name: WaveRide System - South Africa
+□ Price: R135 or $7.5 USD
+□ Upload product files
+□ Save and publish
+□ Copy the product link
+□ Write it here: _________________________________
+
+─────────────────────────────────────────────────────────────
+
+🎯 STEP 4: UPDATE PAYMENT LINK IN CODE
+□ Open index-za.html in code editor
+□ Press Ctrl+H (Find & Replace)
+□ Find: YOUR_SELAR_ZA_LINK_HERE
+□ Replace with: Your Selar link from Step 3
+□ Replace All (should find 2 instances)
+□ Save the file
+
+─────────────────────────────────────────────────────────────
+
+🎯 STEP 5: DEPLOY THE LANDING PAGE
+Choose ONE option:
+
+Option A - Vercel (Recommended):
+□ Install: npm i -g vercel
+□ Run: vercel --prod
+□ Note the URL: _________________________________
+
+Option B - GitHub Pages:
+□ Create repo: WaveRide-ZA
+□ Upload index-za.html (rename to index.html)
+□ Upload img folder
+□ Enable GitHub Pages in repo settings
+□ Note the URL: _________________________________
+
+Option C - Your Own Hosting:
+□ Upload index-za.html to server
+□ Upload img folder
+□ Note the URL: _________________________________
+
+─────────────────────────────────────────────────────────────
+
+🎯 STEP 6: TEST EVERYTHING
+□ Open the deployed page in browser
+□ Check price shows R135 (not ₦10,800)
+□ Check cities show SA names (Johannesburg, etc.)
+□ Click "Buy Now" button
+□ Verify it goes to correct Selar page
+□ Install Meta Pixel Helper extension
+□ Refresh page and check Pixel is firing
+□ Complete a test purchase (optional)
+
+─────────────────────────────────────────────────────────────
+
+🎯 STEP 7: CREATE META ADS CAMPAIGN
+□ Go to Meta Ads Manager
+□ Create new campaign
+□ Objective: Sales (Conversions)
+□ Conversion Event: Purchase
+□ Select your SA Pixel
+□ Campaign Name: WaveRide - South Africa
+
+Ad Set Settings:
+□ Location: South Africa (or specific cities)
+□ Age: 25-55
+□ Interests: Trading, Forex, Cryptocurrency
+□ Budget: R500-1000/day (recommended start)
+□ Optimization: Conversions
+
+Ad Creative:
+□ Use R135 in ad copy (not ₦10,800)
+□ Mention "South Africa" in text
+□ Destination URL: Your deployed SA page
+□ Add UTM parameters (optional)
+
+□ Publish the campaign
+
+─────────────────────────────────────────────────────────────
+
+🎯 STEP 8: CONFIGURE SELAR CAPI (IMPORTANT!)
+□ Login to Selar dashboard
+□ Go to Settings → Integrations
+□ Find "Meta Conversions API"
+□ Enter your SA Pixel ID
+□ Enter your Access Token
+□ Test the connection
+□ Save settings
+
+─────────────────────────────────────────────────────────────
+
+✅ FINAL VERIFICATION
+□ SA landing page is live
+□ Pixel is tracking PageView events
+□ Payment link works
+□ Price shows in Rand (R135)
+□ Meta Ads campaign is running
+□ Targeting South Africa only
+□ CAPI is configured in Selar
+
+─────────────────────────────────────────────────────────────
+
+📊 MONITORING (ONGOING)
+□ Check Meta Events Manager daily
+□ Monitor purchase events
+□ Track Cost Per Purchase
+□ Adjust ad creative based on performance
+□ Scale budget on profitable campaigns
+□ Wait 7 days for learning phase
+
+─────────────────────────────────────────────────────────────
+
+🎉 SUCCESS METRICS TO TRACK
+
+Week 1:
+□ PageViews: _______________
+□ Clicks to Buy: _______________
+□ Purchases: _______________
+□ Cost Per Purchase: _______________
+
+Week 2:
+□ PageViews: _______________
+□ Clicks to Buy: _______________
+□ Purchases: _______________
+□ Cost Per Purchase: _______________
+
+─────────────────────────────────────────────────────────────
+
+📞 OPTIONAL: UPDATE WHATSAPP NUMBER
+If you want a SA-specific contact:
+□ Get South Africa WhatsApp number (+27)
+□ Open index-za.html
+□ Find: href="https://wa.me/2348102792289
+□ Replace with: href="https://wa.me/27XXXXXXXXX
+□ Save and redeploy
+
+─────────────────────────────────────────────────────────────
+
+🆘 TROUBLESHOOTING
+
+Pixel not firing?
+→ Install Meta Pixel Helper extension
+→ Check Pixel ID is correct in code
+→ Clear browser cache and test again
+
+Payment link not working?
+→ Verify Selar product is published
+→ Check link is copied correctly
+→ Test in incognito browser
+
+Wrong price showing?
+→ Clear browser cache
+→ Verify you're on index-za.html (not index.html)
+→ Check Find & Replace worked correctly
+
+Ads not delivering?
+→ Wait 24-48 hours for review
+→ Check campaign is "Active"
+→ Verify payment method is valid
+→ Check audience size is not too small
+
+─────────────────────────────────────────────────────────────
+
+📚 RESOURCES
+
+Meta Events Manager:
+https://business.facebook.com/events_manager
+
+Selar Dashboard:
+https://selar.co/dashboard
+
+Meta Pixel Helper:
+https://chrome.google.com/webstore (search "Meta Pixel Helper")
+
+Meta Business Help:
+https://www.facebook.com/business/help
+
+─────────────────────────────────────────────────────────────
+
+✅ COMPLETION DATE: _____________________
+
+🎯 FIRST PURCHASE DATE: _____________________
+
+💰 TOTAL REVENUE (Month 1): R___________________
+
+─────────────────────────────────────────────────────────────
+
+Notes:
+_____________________________________________________________
+_____________________________________________________________
+_____________________________________________________________
+_____________________________________________________________
+
