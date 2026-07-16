@@ -2,8 +2,20 @@
 
 A professional landing page for the WaveRide trading indicator with integrated Meta Ads tracking and Selar payment processing.
 
-## 🌐 Live Site
+## 🌐 Live Sites
+
+### Nigeria Version (Original)
 **https://hakinz0110-waveride.vercel.app/**
+- **File:** `index.html`
+- **Price:** ₦10,800
+- **Pixel:** 1888089975192177
+
+### South Africa Version (NEW) 🇿🇦
+**Needs deployment**
+- **File:** `index-za.html`
+- **Price:** R135
+- **Pixel:** Configure your own
+- **[Setup Guide](SETUP-GUIDE-ZA.md)** | **[Documentation](README-ZA.md)**
 
 ## 📦 What's Included
 
