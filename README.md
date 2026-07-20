@@ -149,3 +149,28 @@ All rights reserved © WaveRide System
 ---
 
 **Ready to launch your ads and start selling!** 🚀
+
+
+Prices
+
+Here is the pricing breakdown for your product fields, calculated using the mid-market exchange rates as of July 17, 2026.
+
+### Exchange Rates & Product Pricing
+
+Values for standard currencies are rounded to two decimal places, while larger denomination currencies (TZS, UGX, XAF, XOF, and RWF) have been rounded to the nearest whole number, which is standard practice for checkout systems.
+
+| Currency | Exchange Rate (1 USD) | Sale Price ($20) | Original Price ($100) |
+| --- | --- | --- | --- |
+| **NGN** | 1,381.33 | 27,600 | 138,133 |
+| **ZAR** | 16.35 | 327 | 1,635 |
+| **GBP** | 0.742156 | 14.84 | 74.22 |
+| **GHS** | 11.55058 | 231.01 | 1,155.06 |
+| **KES** | 129.249497 | 2,584.99 | 12,924.95 |
+| **TZS** | 2,635.39472 | 52,708 | 263,539 |
+| **UGX** | 3,695.241 | 73,905 | 369,524 |
+| **XAF** | 573.1836 | 11,464 | 57,318 |
+| **XOF** | 573.171 | 11,463 | 57,317 |
+| **RWF** | 1,472.986 | 29,460 | 147,299 |
+| **ZMW** | 18.34967 | 366.99 | 1,834.97 |
+
+*(Note: NGN and ZAR values are populated based on the values already entered in your second screenshot)*
