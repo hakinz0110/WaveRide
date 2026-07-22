@@ -947,7 +947,7 @@ src="https://www.facebook.com/tr?id=794998380302964&ev=PageView&noscript=1"
       </div>
       <div class="faq-item">
         <div class="faq-q">Is this a one-time payment or subscription? <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div>
-        <div class="faq-a"><p>One-time payment of ₦10,800. No monthly fees, no hidden charges.</p></div>
+        <div class="faq-a"><p>One-time payment of R132. No monthly fees, no hidden charges.</p></div>
       </div>
       <div class="faq-item">
         <div class="faq-q">Does it repaint? <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div>
@@ -994,7 +994,7 @@ src="https://www.facebook.com/tr?id=794998380302964&ev=PageView&noscript=1"
   <div class="container">
     <h2 class="section-title">Don't wait until price already moved.</h2>
     <p class="section-sub">Secure your copy now and stay ahead of the market.</p>
-    <a href="https://selar.com/440y4s2076" target="_blank" rel="noopener" class="btn">Get it today for R360 ($20)</a>
+    <a href="https://selar.com/440y4s2076" target="_blank" rel="noopener" class="btn">Get it today for R132 ($8.1)</a>
   </div>
 </section>
 
@@ -1022,6 +1022,67 @@ src="https://www.facebook.com/tr?id=794998380302964&ev=PageView&noscript=1"
 
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
+  
+  // Auto Currency Detection and Display
+  (function() {
+    const currencyConfig = {
+      'NG': { symbol: '₦', price: '11,189', code: 'NGN' },
+      'ZA': { symbol: 'R', price: '132', code: 'ZAR' },
+      'GB': { symbol: '£', price: '6.01', code: 'GBP' },
+      'default': { symbol: '$', price: '8.1', code: 'USD' }
+    };
+    
+    function updatePrices(countryCode) {
+      const currency = currencyConfig[countryCode] || currencyConfig['default'];
+      const isUSD = currency.code === 'USD';
+      
+      // Format: "₦11,189 (≈$8.1 USD)" or just "$8.1" if already USD
+      const priceText = isUSD 
+        ? `${currency.symbol}${currency.price}`
+        : `${currency.symbol}${currency.price} (≈$8.1 USD)`;
+      
+      // Update all price elements
+      document.querySelectorAll('.price-display, .btn').forEach(el => {
+        if (el.textContent.includes('Get it today for') || el.textContent.includes('One-time payment of')) {
+          if (el.classList.contains('btn')) {
+            el.innerHTML = el.innerHTML.replace(/Get it today for [^<]+/, `Get it today for ${priceText}`);
+          } else {
+            el.innerHTML = el.innerHTML.replace(/One-time payment of [^.]+/, `One-time payment of ${priceText}`);
+          }
+        }
+      });
+      
+      // Update FAQ answer
+      document.querySelectorAll('.faq-a p').forEach(el => {
+        if (el.textContent.includes('One-time payment')) {
+          el.textContent = `One-time payment of ${priceText}. No monthly fees, no hidden charges.`;
+        }
+      });
+    }
+    
+    // Try to detect country using free geolocation API
+    fetch('https://ipapi.co/json/')
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.country_code) {
+          updatePrices(data.country_code);
+        }
+      })
+      .catch(() => {
+        // Fallback: try another free API
+        fetch('https://ip-api.com/json/')
+          .then(res => res.json())
+          .then(data => {
+            if (data && data.countryCode) {
+              updatePrices(data.countryCode);
+            }
+          })
+          .catch(() => {
+            // If all fails, keep default prices as set in HTML
+            console.log('Currency auto-detection unavailable, using default prices');
+          });
+      });
+  })();
   
   // Hero Image Carousel Auto-slide with Manual Controls
   const carousel = document.getElementById('heroCarousel');
@@ -1108,7 +1169,7 @@ src="https://www.facebook.com/tr?id=794998380302964&ev=PageView&noscript=1"
 </script>
 
 <!-- WhatsApp Float Button -->
-<a href="https://wa.me/2347081216350?text=Hi,%20I'm%20interested%20in%20the%20WaveRide%20indicator%20[SOUTH%20AFRICA]" target="_blank" rel="noopener" class="whatsapp-float" title="Contact us on WhatsApp">
+<a href="https://wa.me/2347081216350?text=Hi,%20I'm%20interested%20in%20the%20WaveRide%20indicator" target="_blank" rel="noopener" class="whatsapp-float" title="Contact us on WhatsApp">
   <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
     <path d="M16 0c-8.837 0-16 7.163-16 16 0 2.825 0.737 5.607 2.137 8.048l-2.137 7.952 8.135-2.135c2.369 1.313 5.054 2.135 7.865 2.135 8.837 0 16-7.163 16-16s-7.163-16-16-16zM16 29.333c-2.547 0-5.053-0.747-7.2-2.133l-0.515-0.307-5.335 1.4 1.427-5.307-0.32-0.533c-1.5-2.267-2.293-4.853-2.293-7.453 0-7.36 5.987-13.333 13.333-13.333s13.333 5.973 13.333 13.333-5.973 13.333-13.333 13.333zM22.667 18.667c-0.387-0.2-2.293-1.133-2.653-1.253s-0.613-0.2-0.88 0.2c-0.253 0.4-1 1.253-1.227 1.52s-0.453 0.293-0.84 0.093c-0.387-0.2-1.64-0.6-3.12-1.933-1.147-1.027-1.933-2.307-2.16-2.693s-0.027-0.613 0.173-0.813c0.187-0.187 0.413-0.48 0.613-0.72s0.267-0.4 0.413-0.667c0.133-0.267 0.067-0.507-0.027-0.707s-0.88-2.12-1.2-2.907c-0.32-0.76-0.64-0.653-0.88-0.667-0.227-0.013-0.48-0.013-0.733-0.013s-0.667 0.093-1.013 0.48c-0.347 0.387-1.333 1.307-1.333 3.187s1.36 3.693 1.547 3.947c0.187 0.267 2.653 4.053 6.427 5.68 0.893 0.387 1.6 0.627 2.147 0.8 0.907 0.28 1.72 0.24 2.373 0.147 0.72-0.107 2.293-0.933 2.613-1.84s0.32-1.68 0.227-1.84c-0.107-0.173-0.373-0.267-0.76-0.467z"/>
   </svg>
