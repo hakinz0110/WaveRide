@@ -24,6 +24,9 @@ src="https://www.facebook.com/tr?id=YOUR_UK_PIXEL_ID_HERE&ev=PageView&noscript=1
 /></noscript>
 <!-- End Meta Pixel Code -->
 
+<!-- Centralized Pricing Configuration -->
+<script src="price-config.js"></script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800;900&display=swap" rel="stylesheet">
@@ -737,12 +740,12 @@ src="https://www.facebook.com/tr?id=YOUR_UK_PIXEL_ID_HERE&ev=PageView&noscript=1
     <span class="ticker-item">500+ UK Traders Already Profitable</span>
     <span class="ticker-item">Limited Spots Available</span>
     <span class="ticker-item">Join the Inner Circle Today</span>
-    <span class="ticker-item">£16 One-Time Payment</span>
+    <span class="ticker-item">£6.01 One-Time Payment</span>
     <span class="ticker-item">Instant Download After Purchase</span>
     <span class="ticker-item">500+ UK Traders Already Profitable</span>
     <span class="ticker-item">Limited Spots Available</span>
     <span class="ticker-item">Join the Inner Circle Today</span>
-    <span class="ticker-item">£16 One-Time Payment</span>
+    <span class="ticker-item">£6.01 One-Time Payment</span>
     <span class="ticker-item">Instant Download After Purchase</span>
   </div>
 </div>
@@ -776,7 +779,7 @@ src="https://www.facebook.com/tr?id=YOUR_UK_PIXEL_ID_HERE&ev=PageView&noscript=1
     <h1>Trade Where Price <span>Actually</span> Reacts.</h1>
     <p>Stop guessing the market. Get instant access to the Supply & Demand Zones Indicator now.</p>
     <a href="https://selar.com/lm2427151n" target="_blank" rel="noopener" class="btn">
-      Get it today for £16 ($20)
+      Get it today for £6.01 ($8.1)
     </a>
     
     <div class="hero-img" id="heroCarousel">
@@ -912,9 +915,9 @@ src="https://www.facebook.com/tr?id=YOUR_UK_PIXEL_ID_HERE&ev=PageView&noscript=1
 <!-- Pricing -->
 <section id="pricing">
   <div class="container">
-    <h2 class="section-title">£16 ($20) — Everything Included</h2>
+    <h2 class="section-title">£6.01 ($8.1) — Everything Included</h2>
     <div class="pricing">
-      <div class="price">£16 <small>/ one-time</small></div>
+      <div class="price">£6.01 <small>/ one-time</small></div>
       <ul class="features">
         <li><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg> Supply & Demand Zone Indicator</li>
         <li><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg> Complete Setup Guide</li>
@@ -1023,23 +1026,22 @@ src="https://www.facebook.com/tr?id=YOUR_UK_PIXEL_ID_HERE&ev=PageView&noscript=1
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
   
-  // Auto Currency Detection and Display
+  // Auto Currency Detection and Display (uses price-config.js)
   (function() {
-    const currencyConfig = {
-      'NG': { symbol: '₦', price: '11,189', code: 'NGN' },
-      'ZA': { symbol: 'R', price: '132', code: 'ZAR' },
-      'GB': { symbol: '£', price: '6.01', code: 'GBP' },
-      'default': { symbol: '$', price: '8.1', code: 'USD' }
-    };
+    // Wait for price-config.js to load
+    if (typeof CURRENCY_CONFIG === 'undefined') {
+      console.error('price-config.js not loaded. Using fallback prices.');
+      return;
+    }
     
     function updatePrices(countryCode) {
-      const currency = currencyConfig[countryCode] || currencyConfig['default'];
+      const currency = CURRENCY_CONFIG[countryCode] || CURRENCY_CONFIG['default'];
       const isUSD = currency.code === 'USD';
       
       // Format: "₦11,189 (≈$8.1 USD)" or just "$8.1" if already USD
       const priceText = isUSD 
         ? `${currency.symbol}${currency.price}`
-        : `${currency.symbol}${currency.price} (≈$8.1 USD)`;
+        : `${currency.symbol}${currency.price} (≈$${currency.usdPrice} USD)`;
       
       // Update all price elements
       document.querySelectorAll('.price-display, .btn').forEach(el => {
@@ -1056,6 +1058,27 @@ src="https://www.facebook.com/tr?id=YOUR_UK_PIXEL_ID_HERE&ev=PageView&noscript=1
       document.querySelectorAll('.faq-a p').forEach(el => {
         if (el.textContent.includes('One-time payment')) {
           el.textContent = `One-time payment of ${priceText}. No monthly fees, no hidden charges.`;
+        }
+      });
+      
+      // Update ticker items
+      document.querySelectorAll('.ticker-item').forEach(el => {
+        if (el.textContent.includes('One-Time Payment')) {
+          el.textContent = `${currency.symbol}${currency.price} One-Time Payment`;
+        }
+      });
+      
+      // Update pricing section title
+      document.querySelectorAll('.section-title').forEach(el => {
+        if (el.textContent.includes('Everything Included')) {
+          el.textContent = `${priceText} — Everything Included`;
+        }
+      });
+      
+      // Update main price display
+      document.querySelectorAll('.price').forEach(el => {
+        if (el.textContent.includes('one-time')) {
+          el.innerHTML = `${currency.symbol}${currency.price} <small>/ one-time</small>`;
         }
       });
     }
